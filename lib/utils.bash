@@ -35,7 +35,7 @@ list_all_versions() {
 }
 
 get_os() {
-  uname | tr '[:upper:]' '[:lower:]'
+	uname | tr '[:upper:]' '[:lower:]'
 }
 
 get_arch() {
