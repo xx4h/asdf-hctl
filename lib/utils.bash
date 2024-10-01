@@ -31,18 +31,24 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if hctl has other means of determining installable versions.
 	list_github_tags
 }
 
+get_os() {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_arch() {
+	uname -m
+}
+
 download_release() {
-	local version filename url
+	local version filename release_name url
 	version="$1"
 	filename="$2"
+	release_name="${TOOL_NAME}_$(get_os)_$(get_arch)"
 
-	# TODO: Adapt the release URL convention for hctl
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/${release_name}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
